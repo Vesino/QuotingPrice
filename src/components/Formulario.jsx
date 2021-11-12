@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { getYearDifference, computeBrand } from '../helper';
 
 const Campo = styled.div`
     display: flex;
@@ -73,6 +74,20 @@ const Formulario = () => {
             return;
         }
         setError(false)
+
+        let result = 2000
+
+        // diferencia de año -3% por año
+        const yearDifference =  getYearDifference(year);
+
+        // for every year we should discount 3%
+        result -= ((yearDifference * 3) * result) / 100
+
+        // Americano 15%
+        // Asiatico 5%
+        // Europeo 3%
+        result = computeBrand(marca) * result
+        console.log(result)
 
     }
     return ( 
