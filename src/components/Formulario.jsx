@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { getYearDifference, computeBrand } from '../helper';
+import { getYearDifference, computeBrand, getPlan } from '../helper';
 
 const Campo = styled.div`
     display: flex;
@@ -51,7 +51,7 @@ const Error = styled.div`
     text-align: center;
 `;
 
-const Formulario = () => {
+const Formulario = ({setSummary, setLoading}) => {
 
     const [data, setData] = useState({
         marca: "",
@@ -87,7 +87,19 @@ const Formulario = () => {
         // Asiatico 5%
         // Europeo 3%
         result = computeBrand(marca) * result
-        console.log(result)
+
+        // Compute Plan
+        const planIncrement = getPlan(plan)
+        result =  parseFloat(planIncrement * result).toFixed(2);
+        setLoading(true)
+
+        setTimeout(() =>{
+            setSummary({
+                quote: result,
+                data
+            });
+            setLoading(false)
+        }, 3000)
 
     }
     return ( 
